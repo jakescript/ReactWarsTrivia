@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from "react"
+import About from "./About"
+import Submission from "./Submission"
+import Hint from "./Hint"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component{
+	constructor(){
+		super()
+		this.state ={
+			char: {},
+			loading: false
+		}
+	}
+
+	componentDidMount(){
+        this.setState({loading: true})
+        fetch("https://swapi.co/api/people/" + Math.floor(Math.random() * 88))
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+					char: data,
+					loading: false
+                })
+			})
+    }
+
+	render(){
+		if(this.state.loading){
+			return (
+				<div className="about-section">
+					<h1>Preparing Myself...</h1>
+				</div>
+			)
+		}
+
+		return(
+			<div>
+				<About char={this.state.char}/>
+				<Submission char={this.state.char}/>
+				<div className="hint-section">
+					<Hint hint="Homeworld" getHint={this.state.char.homeworld} />
+					<Hint hint="Species" getHint={this.state.char.species}/>
+				</div>
+			</div>
+		)
+	}
 }
 
-export default App;
+export default App
