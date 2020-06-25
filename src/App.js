@@ -1,7 +1,7 @@
 import React, {Component} from "react"
-import About from "./About"
-import Submission from "./Submission"
-import Hint from "./Hint"
+import About from "./components/About"
+import Submission from "./components/Submission"
+import Hint from "./components/Hint"
 
 class App extends Component{
 	constructor(){
@@ -13,8 +13,9 @@ class App extends Component{
 	}
 
 	componentDidMount(){
-        this.setState({loading: true})
-        fetch("https://swapi.co/api/people/" + Math.floor(Math.random() * 88))
+		this.setState({loading: true})
+		let character = Math.floor(Math.random() * 88)
+        fetch("https://swapi.dev/api/people/" + character)
             .then(res => res.json())
             .then(data => {
                 this.setState({
